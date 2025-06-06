@@ -1,5 +1,6 @@
 ru\netology\repository\PostRepositoryImpl.class
 ru\netology\initializer\ApplicationInitializer.class
+ru\netology\model\PostEntity.class
 ru\netology\controller\PostController.class
 ru\netology\config\WebConfig.class
 ru\netology\exception\NotFoundException.class
