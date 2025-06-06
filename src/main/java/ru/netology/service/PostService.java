@@ -27,16 +27,19 @@ public class PostService {
     }
 
     public Post save(Post post) {
-        //если поста с postId нет в репозитории - выбрасываем исключение
-        if (post.getId() != 0 && repository.getById(post.getId()).isEmpty()) {
-            String errorMessage = "Поста с id = " + post.getId() + " не существует, сохранение/модификация невозможна.";
-            throw new NotFoundException(errorMessage);
+        //если пост без id => свежий, сохраняем
+        if (post.getId() == 0) {return repository.save(post);}
+        //Если поста с id нет в репозитории или есть, но помечен удалённым,
+        //то репозиторий вернёт пустой Optional. Тогда выбрасываем исключение.
+        if (repository.getById(post.getId()).isEmpty()) {
+            throw new NotFoundException();
         }
+        //а если Optional пришёл не пустым - значит переписываем пост в хранилище
         return repository.save(post);
     }
 
     public void removeById(long id) {
-        //Если поста с id не существует - выкинуть исклюение NotFoundException.
+        //Если поста с id не существует - выкинуть исключение NotFoundException.
         if (repository.getById(id).isEmpty()) {
             throw new NotFoundException();
         }
